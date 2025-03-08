@@ -1,1 +1,1 @@
-### Netowrk Security Projects for Phising Data
+### Netowrk Security Project for Phising Data
