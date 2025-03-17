@@ -25,15 +25,13 @@ from sklearn.ensemble import (
     RandomForestClassifier,
 )
 
+import dagshub
+dagshub.init(repo_owner='SandeepMandala369', repo_name='networkssecurity', mlflow=True)
+
 import mlflow
-'''
+from urllib.parse import urlparse
 
-
-#import dagshub
-#dagshub.init(repo_owner='SandeepMandala369', repo_name='networkssecurity', mlflow=True)
-
-
-'''
+#mlflow.set_tracking_uri("https://dagshub.com/SandeepMandala369/networkssecurity.mlflow")
 
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,
@@ -55,7 +53,7 @@ class ModelTrainer:
             mlflow.log_metric("precision",precision_score)
             mlflow.log_metric("recall_score",recall_score)
             mlflow.sklearn.log_model(best_model,"model")
-            
+           
         
 
     def train_model(self,X_train,y_train,x_test,y_test):
@@ -123,7 +121,7 @@ class ModelTrainer:
         self.track_mlflow(best_model,classification_test_metric)
 
         preprocessor = load_object(file_path=self.data_transformation_artifact.transformed_object_file_path)
-            
+
         model_dir_path = os.path.dirname(self.model_trainer_config.trained_model_file_path)
         os.makedirs(model_dir_path,exist_ok=True)
 
@@ -131,8 +129,9 @@ class ModelTrainer:
         save_object(self.model_trainer_config.trained_model_file_path,obj=NetworkModel)
 
         #model pusher
-        #save_object("final_model/model.pkl",best_model)
-        
+
+        save_object("final_model/model.pkl",best_model)
+      
 
         ## Model Trainer Artifact
         model_trainer_artifact=ModelTrainerArtifact(trained_model_file_path=self.model_trainer_config.trained_model_file_path,
@@ -168,3 +167,5 @@ class ModelTrainer:
             
         except Exception as e:
             raise NetworkSecurityException(e,sys)
+
+

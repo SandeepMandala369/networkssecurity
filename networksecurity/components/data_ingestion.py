@@ -18,9 +18,9 @@ from sklearn.model_selection import train_test_split
 from dotenv import load_dotenv
 load_dotenv()
 
-MONGO_DB_URL=os.getenv("MONGO_DB_URL")
+#MONGO_DB_URL=os.getenv("MONGO_DB_URL")
 
-
+MONGO_DB_URL="mongodb+srv://mcsandeepreetham:Sandyman300@cluster0.xy2yb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 class DataIngestion:
     def __init__(self,data_ingestion_config:DataIngestionConfig):
         try:
